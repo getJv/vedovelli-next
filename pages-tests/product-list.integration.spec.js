@@ -49,12 +49,17 @@ describe('ProductList', () => {
       expect(screen.queryAllByAltText('product-card')).toHaveLength(0)
     })
   });
-  fit('should filter the product list when a search is performed',async ()=>{
+  it('should filter the product list when a search is performed',async ()=>{
     const searchTerm = 'Relogio bonito'
-    server.createList('product',2)
-    server.create('product',{
-      title: searchTerm
-    })
+    server.create('product', {
+      title: 'product 1',
+    });
+    server.create('product', {
+      title: 'product 2',
+    });
+    server.create('product', {
+      title: searchTerm,
+    });
     renderProductList();
     await waitFor(()=>{
       expect(screen.getAllByTestId('product-card')).toHaveLength(3)
