@@ -1,5 +1,7 @@
+/* istanbul ignore file*/
 import { makeServer } from '../miragejs/server';
 
+/* istanbul ignore next*/
 if (process.env.NODE_ENV === 'development') {
   // Mirage JS code will ever reach your production build.
   makeServer({ environment: 'development' });
