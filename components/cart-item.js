@@ -1,8 +1,13 @@
 import { useState } from 'react';
+
 export default function CartItem({ product }) {
   const [quantity, setQuantity] = useState(1);
+
   const increase = () => setQuantity(quantity + 1);
-  const decrease = () => setQuantity(quantity > 0 ? quantity - 1 : 0);
+
+  const decrease = () => {
+    setQuantity(quantity > 0 ? quantity - 1 : 0);
+  };
 
   return (
     <div data-testid="cart-item" className="flex justify-between mt-6">
