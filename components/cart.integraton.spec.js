@@ -4,6 +4,9 @@ import { useCartStore } from '../store/cart';
 import { makeServer } from '../miragejs/server';
 import userEvent from '@testing-library/user-event';
 import Cart from './cart';
+import { setAutoFreeze } from 'immer';
+
+setAutoFreeze(false);
 
 const renderCart = () => {
   render(<Cart />);
