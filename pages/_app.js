@@ -1,19 +1,16 @@
-/* istanbul ignore file*/
-import { makeServer } from '../miragejs/server';
+/* istanbul ignore file */
+import '../styles/globals.css';
+
+import Cart from '../components/cart';
 import { useCartStore } from '../store/cart';
 
-/* istanbul ignore next*/
 if (process.env.NODE_ENV === 'development') {
-  // Mirage JS code will ever reach your production build.
-  makeServer({ environment: 'development' });
+  require('../miragejs/server').makeServer();
 }
-import '../styles/globals.css';
-import Cart from '../components/cart';
 
 function MyApp({ Component, pageProps }) {
   const toggle = useCartStore(store => store.actions.toggle);
 
-  return <Component {...pageProps} />;
   return (
     <div className="bg-white">
       <header>
