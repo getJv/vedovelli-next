@@ -19,16 +19,31 @@ export const useCartStore = create(set => {
           state.open = !state.open;
         });
       },
-      reset() {
-        setState(store => {
-          store.state = initialState;
-        });
-      },
       add(product) {
         setState(({ state }) => {
           if (!state.products.includes(product)) {
             state.products.push(product);
           }
+        });
+      },
+      reset() {
+        setState(store => {
+          store.state = initialState;
+        });
+      },
+      remove(product) {
+        setState(({ state }) => {
+          const exists = !!state.products.find(({ id }) => product.id === id);
+          if (exists) {
+            state.products = state.products.filter(({ id }) => {
+              return id !== product.id;
+            });
+          }
+        });
+      },
+      removeAll() {
+        setState(({ state }) => {
+          state.products = [];
         });
       },
     },
