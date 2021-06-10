@@ -83,6 +83,19 @@ describe('Cart Store', () => {
     expect(result.current.state.products).toHaveLength(1);
     expect(result.current.state.products[0]).toEqual(product2);
   });
+  it('should not change  products if the excluded does not belongs to array', function () {
+    const [product1, product2, product3] = server.createList('product', 3);
+    act(() => {
+      add(product1);
+      add(product2);
+    });
+
+    expect(result.current.state.products).toHaveLength(2);
+    act(() => {
+      remove(product3);
+    });
+    expect(result.current.state.products).toHaveLength(2);
+  });
   it('should remove all products from store', function () {
     const [product1, product2] = server.createList('product', 2);
     act(() => {

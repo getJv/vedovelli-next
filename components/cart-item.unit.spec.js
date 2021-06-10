@@ -33,23 +33,25 @@ describe('ProductCard', () => {
   });
   it('should increase quantity by 1 when + be clicked', async function () {
     renderCartItem();
-    const [_, button] = screen.getAllByRole('button');
+    const button = screen.getByTestId('increase');
     await fireEvent.click(button);
     expect(screen.getByTestId('quantity').textContent).toBe('2');
   });
   it('should decrease quantity by 1 when - be clicked', async function () {
     renderCartItem();
-    const [b1, b2] = screen.getAllByRole('button');
-    await fireEvent.click(b2);
+    const btnIncrease = screen.getByTestId('increase');
+    const btnDecrease = screen.getByTestId('decrease');
+
+    await fireEvent.click(btnIncrease);
     expect(screen.getByTestId('quantity').textContent).toBe('2');
-    await fireEvent.click(b1);
+    await fireEvent.click(btnDecrease);
     expect(screen.getByTestId('quantity').textContent).toBe('1');
   });
   it('should not allow decrease quantity lower then 0', async function () {
     renderCartItem();
-    const [b1] = screen.getAllByRole('button');
-    await fireEvent.click(b1);
-    await fireEvent.click(b1);
+    const btnDecrease = screen.getByTestId('decrease');
+    await fireEvent.click(btnDecrease);
+    await fireEvent.click(btnDecrease);
     expect(screen.getByTestId('quantity').textContent).toBe('0');
   });
 });
