@@ -1,10 +1,12 @@
-import { renderHook, act } from '@testing-library/react-hooks';
+import { renderHook, act as hooksAct } from '@testing-library/react-hooks';
 import { screen, render } from '@testing-library/react';
 import { useCartStore } from '../store/cart';
 import { makeServer } from '../miragejs/server';
 import userEvent from '@testing-library/user-event';
 import Cart from './cart';
 import { setAutoFreeze } from 'immer';
+import TestRenderer from 'react-test-renderer';
+const { act: componentsAct } = TestRenderer;
 
 setAutoFreeze(false);
 
@@ -36,26 +38,27 @@ describe('Cart', () => {
     renderCart();
     expect(screen.getByTestId('cart')).toHaveClass('hidden');
   });
-  it('the toogle removes the hidden class', function () {
-    act(() => {
-      toggle();
+  it('the toogle removes the hidden class', async function () {
+    await componentsAct(async () => {
+      renderCart();
+      const closeButton = screen.getByTestId('close-button');
+      await userEvent.click(closeButton);
+      expect(screen.getByTestId('cart')).not.toHaveClass('hidden');
     });
-    renderCart();
-    expect(screen.getByTestId('cart')).not.toHaveClass('hidden');
   });
-  it('the toogle removes the hidden class', function () {
-    renderCart();
-    const button = screen.getByTestId('close-button');
-    act(() => {
-      userEvent.click(button);
-      userEvent.click(button);
+  it('should remove the toogle removes the hidden class', async function () {
+    await componentsAct(async () => {
+      renderCart();
+      const button = screen.getByTestId('close-button');
+      await userEvent.click(button);
+      await userEvent.click(button);
+      expect(spy).toBeCalledTimes(2);
     });
-    expect(spy).toBeCalledTimes(2);
   });
   it('Should display 2 products', function () {
     const products = server.createList('product', 2);
     //    renderCart();
-    act(() => {
+    hooksAct(() => {
       for (const product of products) {
         add(product);
       }

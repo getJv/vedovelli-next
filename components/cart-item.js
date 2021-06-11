@@ -28,7 +28,6 @@ export default function CartItem({ product }) {
               remove(product);
             }}
           >
-            {' '}
             remove
           </button>
           <div className="flex items-center mt-2">
