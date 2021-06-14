@@ -66,4 +66,23 @@ describe('Cart', () => {
     renderCart();
     expect(screen.getAllByTestId('cart-item')).toHaveLength(2);
   });
+  it('should remove all products when clear cart is clickerd', async function () {
+    const products = server.createList('product', 2);
+    hooksAct(() => {
+      for (const product of products) {
+        add(product);
+      }
+    });
+    await componentsAct(async () => {
+      renderCart();
+      expect(screen.getAllByTestId('cart-item')).toHaveLength(2);
+      const btnRemoveAll = screen.getByRole('button', { name: /remove all/i });
+      await userEvent.click(btnRemoveAll);
+      expect(screen.queryAllByTestId('cart-item')).toHaveLength(0);
+    });
+  });
+  it('should not display clear cart button if not have no products', async function () {
+    renderCart();
+    expect(screen.queryByRole('button', { name: /removel all/i })).not.toBeInTheDocument();
+  });
 });
